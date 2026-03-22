@@ -1,6 +1,7 @@
 package com.dev.sales_api.services;
 
 import com.dev.sales_api.dtos.SaleRequestDTO;
+import com.dev.sales_api.dtos.SaleResponseDTO;
 import com.dev.sales_api.dtos.SellerStatsResponseDTO;
 import com.dev.sales_api.models.Sale;
 import com.dev.sales_api.models.Seller;
@@ -32,7 +33,7 @@ public class SaleService {
     }
 
     // Método para criar uma venda
-    public Sale createSale(SaleRequestDTO dto) {
+    public SaleResponseDTO createSale(SaleRequestDTO dto) {
         Seller seller = sellerRepository.findById(dto.getSellerId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendedor não encontrado com o ID: " + dto.getSellerId()));
 
@@ -41,7 +42,15 @@ public class SaleService {
         sale.setAmount(dto.getAmount());
         sale.setSeller(seller);
 
-        return saleRepository.save(sale);
+        Sale saved = saleRepository.save(sale);
+
+        return new SaleResponseDTO(
+                saved.getId(),
+                saved.getSaleDate(),
+                saved.getAmount(),
+                seller.getId(),
+                seller.getName()
+        );
     }
 
     public List<SellerStatsResponseDTO> getSellerStatistics(LocalDate startDate, LocalDate endDate) {
