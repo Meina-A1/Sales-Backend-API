@@ -1,6 +1,6 @@
 package com.dev.sales_api.controllers;
 
-import com.dev.sales_api.models.Seller;
+import com.dev.sales_api.dtos.SellerResponseDTO;
 import com.dev.sales_api.services.SellerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +18,12 @@ public class SellerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Seller>> findAll() {
-        List<Seller> sellers = sellerService.findAll();
-        return ResponseEntity.ok(sellers);
+    public ResponseEntity<List<SellerResponseDTO>> findAll() {
+        return ResponseEntity.ok(sellerService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Seller> findById(@PathVariable Long id) {
-        Seller seller = sellerService.findById(id);
-        return ResponseEntity.ok(seller);
+    public ResponseEntity<SellerResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(sellerService.findById(id));
     }
 }

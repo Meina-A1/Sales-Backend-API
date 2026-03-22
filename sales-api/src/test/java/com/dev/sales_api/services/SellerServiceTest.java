@@ -2,6 +2,7 @@ package com.dev.sales_api.services;
 
 import com.dev.sales_api.models.Seller;
 import com.dev.sales_api.repositories.SellerRepository;
+import com.dev.sales_api.dtos.SellerResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,10 +46,10 @@ class SellerServiceTest {
 
         when(sellerRepository.findAll()).thenReturn(List.of(seller, bob));
 
-        List<Seller> result = sellerService.findAll();
+        List<SellerResponseDTO> result = sellerService.findAll();
 
         assertThat(result).hasSize(2);
-        assertThat(result).extracting(Seller::getName)
+        assertThat(result).extracting(SellerResponseDTO::getName)
                 .containsExactlyInAnyOrder("Alice Silva", "Bob Souza");
     }
 
@@ -56,7 +57,7 @@ class SellerServiceTest {
     void findAll_shouldReturnEmptyList_whenNoSellersExist() {
         when(sellerRepository.findAll()).thenReturn(List.of());
 
-        List<Seller> result = sellerService.findAll();
+        List<SellerResponseDTO> result = sellerService.findAll();
 
         assertThat(result).isEmpty();
     }
@@ -67,7 +68,7 @@ class SellerServiceTest {
     void findById_shouldReturnSeller_whenIdExists() {
         when(sellerRepository.findById(1L)).thenReturn(Optional.of(seller));
 
-        Seller result = sellerService.findById(1L);
+        SellerResponseDTO result = sellerService.findById(1L);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(1L);
