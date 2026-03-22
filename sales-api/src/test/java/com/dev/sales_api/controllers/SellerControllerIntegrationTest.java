@@ -35,7 +35,7 @@ class SellerControllerIntegrationTest {
         sellerRepository.deleteAll();
 
         seller = new Seller();
-        seller.setName("Alice Silva");
+        seller.setName("Frieren");
         sellerRepository.save(seller);
     }
 
@@ -44,13 +44,13 @@ class SellerControllerIntegrationTest {
     @Test
     void findAll_shouldReturn200_withListOfSellers() throws Exception {
         Seller bob = new Seller();
-        bob.setName("Bob Souza");
+        bob.setName("Aura");
         sellerRepository.save(bob);
 
         mockMvc.perform(get("/api/sellers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[*].name", containsInAnyOrder("Alice Silva", "Bob Souza")));
+                .andExpect(jsonPath("$[*].name", containsInAnyOrder("Frieren", "Aura")));
     }
 
     @Test
@@ -70,7 +70,7 @@ class SellerControllerIntegrationTest {
         mockMvc.perform(get("/api/sellers/{id}", seller.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(seller.getId()))
-                .andExpect(jsonPath("$.name").value("Alice Silva"));
+                .andExpect(jsonPath("$.name").value("Frieren"));
     }
 
     @Test

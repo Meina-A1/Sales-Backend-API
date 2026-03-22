@@ -40,7 +40,7 @@ class SaleControllerIntegrationTest {
         sellerRepository.deleteAll();
 
         seller = new Seller();
-        seller.setName("Alice Silva");
+        seller.setName("Frieren");
         sellerRepository.save(seller);
     }
 
@@ -61,7 +61,7 @@ class SaleControllerIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.amount").value(500.00))
-                .andExpect(jsonPath("$.sellerName").value("Alice Silva"))
+                .andExpect(jsonPath("$.sellerName").value("Frieren"))
                 .andExpect(jsonPath("$.sellerId").exists())
                 .andExpect(jsonPath("$.saleDate").value(LocalDate.now().toString()));
     }
@@ -128,7 +128,7 @@ class SaleControllerIntegrationTest {
                         .param("endDate", endDate))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].sellerName").value("Alice Silva"))
+                .andExpect(jsonPath("$[0].sellerName").value("Frieren"))
                 .andExpect(jsonPath("$[0].totalSales").value(1))
                 .andExpect(jsonPath("$[0].dailyAverage").value(300.00));
     }
