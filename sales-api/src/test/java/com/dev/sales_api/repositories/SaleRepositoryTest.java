@@ -35,31 +35,31 @@ class SaleRepositoryTest {
         sellerRepository.deleteAll();
 
         seller = new Seller();
-        seller.setName("Alice Silva");
+        seller.setName("Frieren");
         sellerRepository.save(seller);
 
-        // Sale inside range
+        // Sale dentro do range
         Sale s1 = new Sale();
         s1.setSaleDate(TODAY);
         s1.setAmount(new BigDecimal("100.00"));
         s1.setSeller(seller);
         saleRepository.save(s1);
 
-        // Sale inside range
+        // Sale dentro do range
         Sale s2 = new Sale();
         s2.setSaleDate(YESTERDAY);
         s2.setAmount(new BigDecimal("200.00"));
         s2.setSeller(seller);
         saleRepository.save(s2);
 
-        // Sale inside range
+        // Sale dentro do range
         Sale s3 = new Sale();
         s3.setSaleDate(TWO_DAYS_AGO);
         s3.setAmount(new BigDecimal("300.00"));
         s3.setSeller(seller);
         saleRepository.save(s3);
 
-        // Sale OUTSIDE range — should never appear in results
+        // Sale fora do range — não deve aparecer nos resultados
         Sale s4 = new Sale();
         s4.setSaleDate(LAST_WEEK);
         s4.setAmount(new BigDecimal("999.00"));
@@ -110,7 +110,7 @@ class SaleRepositoryTest {
 
     @Test
     void findBySaleDateBetween_shouldIncludeBoundaryDates() {
-        // Verifies the query is inclusive on both ends (BETWEEN is inclusive in SQL)
+        // verifica que a query é valida para ambos os lados (BETWEEN é inclusivo no SQL)
         List<Sale> result = saleRepository.findBySaleDateBetween(TWO_DAYS_AGO, TWO_DAYS_AGO);
 
         assertThat(result).hasSize(1);

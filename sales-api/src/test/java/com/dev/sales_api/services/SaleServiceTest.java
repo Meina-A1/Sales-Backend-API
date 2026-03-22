@@ -43,7 +43,7 @@ class SaleServiceTest {
     void setUp() {
         seller = new Seller();
         seller.setId(1L);
-        seller.setName("Alice Silva");
+        seller.setName("Frieren");
     }
 
     // --- createSale ---
@@ -67,7 +67,7 @@ class SaleServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getAmount()).isEqualByComparingTo("500.00");
-        assertThat(result.getSellerName()).isEqualTo("Alice Silva");
+        assertThat(result.getSellerName()).isEqualTo("Frieren");
         assertThat(result.getSaleDate()).isEqualTo(LocalDate.now());
         verify(saleRepository, times(1)).save(any(Sale.class));
     }
@@ -110,7 +110,7 @@ class SaleServiceTest {
 
         assertThat(result).hasSize(1);
         SellerStatsResponseDTO stats = result.get(0);
-        assertThat(stats.getSellerName()).isEqualTo("Alice Silva");
+        assertThat(stats.getSellerName()).isEqualTo("Frieren");
         assertThat(stats.getTotalSales()).isEqualTo(2L);
         // Total: 900.00 / 3 days = 300.00
         assertThat(stats.getDailyAverage()).isEqualByComparingTo("300.00");
@@ -130,29 +130,29 @@ class SaleServiceTest {
 
     @Test
     void getSellerStatistics_shouldGroupCorrectly_forMultipleSellers() {
-        Seller bob = new Seller();
-        bob.setId(2L);
-        bob.setName("Bob Souza");
+        Seller aura = new Seller();
+        aura.setId(2L);
+        aura.setName("Aura");
 
         LocalDate start = LocalDate.now().minusDays(1);
         LocalDate end = LocalDate.now(); // 2 days
 
-        Sale aliceSale = new Sale();
-        aliceSale.setAmount(new BigDecimal("200.00"));
-        aliceSale.setSaleDate(start);
-        aliceSale.setSeller(seller);
+        Sale frierenSale = new Sale();
+        frierenSale.setAmount(new BigDecimal("200.00"));
+        frierenSale.setSaleDate(start);
+        frierenSale.setSeller(seller);
 
-        Sale bobSale = new Sale();
-        bobSale.setAmount(new BigDecimal("400.00"));
-        bobSale.setSaleDate(end);
-        bobSale.setSeller(bob);
+        Sale auraSale = new Sale();
+        auraSale.setAmount(new BigDecimal("400.00"));
+        auraSale.setSaleDate(end);
+        auraSale.setSeller(aura);
 
-        when(saleRepository.findBySaleDateBetween(start, end)).thenReturn(List.of(aliceSale, bobSale));
+        when(saleRepository.findBySaleDateBetween(start, end)).thenReturn(List.of(frierenSale, auraSale));
 
         List<SellerStatsResponseDTO> result = saleService.getSellerStatistics(start, end);
 
         assertThat(result).hasSize(2);
         assertThat(result).extracting(SellerStatsResponseDTO::getSellerName)
-                .containsExactlyInAnyOrder("Alice Silva", "Bob Souza");
+                .containsExactlyInAnyOrder("Frieren", "Aura");
     }
 }

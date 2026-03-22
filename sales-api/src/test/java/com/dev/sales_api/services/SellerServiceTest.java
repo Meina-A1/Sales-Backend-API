@@ -33,7 +33,7 @@ class SellerServiceTest {
     void setUp() {
         seller = new Seller();
         seller.setId(1L);
-        seller.setName("Alice Silva");
+        seller.setName("Frieren");
     }
 
     // --- findAll ---
@@ -42,7 +42,7 @@ class SellerServiceTest {
     void findAll_shouldReturnAllSellers() {
         Seller bob = new Seller();
         bob.setId(2L);
-        bob.setName("Bob Souza");
+        bob.setName("Aura");
 
         when(sellerRepository.findAll()).thenReturn(List.of(seller, bob));
 
@@ -50,7 +50,7 @@ class SellerServiceTest {
 
         assertThat(result).hasSize(2);
         assertThat(result).extracting(SellerResponseDTO::getName)
-                .containsExactlyInAnyOrder("Alice Silva", "Bob Souza");
+                .containsExactlyInAnyOrder("Frieren", "Aura");
     }
 
     @Test
@@ -72,7 +72,7 @@ class SellerServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(1L);
-        assertThat(result.getName()).isEqualTo("Alice Silva");
+        assertThat(result.getName()).isEqualTo("Frieren");
     }
 
     @Test
