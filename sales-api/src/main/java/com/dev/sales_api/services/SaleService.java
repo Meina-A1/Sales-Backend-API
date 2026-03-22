@@ -6,7 +6,10 @@ import com.dev.sales_api.models.Sale;
 import com.dev.sales_api.models.Seller;
 import com.dev.sales_api.repositories.SaleRepository;
 import com.dev.sales_api.repositories.SellerRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,7 +34,7 @@ public class SaleService {
     // Método para criar uma venda
     public Sale createSale(SaleRequestDTO dto) {
         Seller seller = sellerRepository.findById(dto.getSellerId())
-                .orElseThrow(() -> new RuntimeException("Vendedor não encontrado com o ID: " + dto.getSellerId()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendedor não encontrado com o ID: " + dto.getSellerId()));
 
         Sale sale = new Sale();
         sale.setSaleDate(LocalDate.now());
