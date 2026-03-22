@@ -1,14 +1,20 @@
 package com.dev.sales_api.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
 @Entity
 @Table(name = "sales")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sale {
 
     @Id
